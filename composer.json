@@ -1,0 +1,14 @@
+{
+  "name": "dhtmlx/dhtmlx-gii",
+  "description": "Gii Generator for the generation of grid on a given url with the help of DHTMLX Library",
+  "keywords": ["dhtmlx","yii2","gii","generator"],
+  "license": "GNU",
+  "autoload": {
+    "psr-4": {
+      "dhtmlx\\dhtmlx-gii\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=5.4.0"
+  }
+}

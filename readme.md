@@ -32,16 +32,15 @@ to the ```require``` section of your `composer.json` file.
 ```
 
 ```php
-//Add this into common/config/main-local.php
-    'bootstrap' => 'gii',
-    'modules' => [
-        'gii' => [
+//Add this into common/config/web.php
+    
+    $config['bootstrap'][] = 'gii';
+    $config['modules']['gii'] = [
             'class' => 'yii\gii\Module',
             'generators' => [
-                'doubleModel' => [
-                    'class' => 'dhtmlx\generators\Generator',
+                'dhtmlx' => [
+                    'class' => 'dhtmlx\dhtmlx-gii\generators\Generator',
                 ],
             ],
-        ],
-    ],
+        ];
 ```
