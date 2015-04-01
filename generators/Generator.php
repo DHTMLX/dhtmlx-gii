@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace dhtmlx\dhtmlx-gii\generators;
+namespace dhtmlx\gii\generators;
 
 use Yii;
 use yii\gii\CodeFile;
