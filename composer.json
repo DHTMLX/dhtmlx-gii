@@ -5,7 +5,7 @@
   "license": "GNU",
   "autoload": {
     "psr-4": {
-      "DHTMLX\\Gii\\": "generators"
+      "DHTMLX\\Gii\\": "generators/"
     }
   },
   "require": {
