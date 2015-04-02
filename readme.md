@@ -5,6 +5,8 @@ This generator generates the grid on a given url with the help of DHTMLX Grid.
 
 ## Installation
 
+!!!Make sure you have dhtmlx.css and dhtmlx.js in the head of your pages
+
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
 Either run
@@ -38,9 +40,12 @@ to the ```require``` section of your `composer.json` file.
     $config['modules']['gii'] = [
             'class' => 'yii\gii\Module',
             'generators' => [
-                'dhtmlx' => [
-                    'class' => 'dhtmlx\dhtmlx-gii\generators\Generator',
+                'dhtmlx-one-table' => [
+                    'class' => 'DHTMLX\Gii\OneTable\Generator',
                 ],
+                'dhtmlx-many-tables' => [
+                                    'class' => 'DHTMLX\Gii\ManyTables\Generator',
+                                ],
             ],
         ];
 ```

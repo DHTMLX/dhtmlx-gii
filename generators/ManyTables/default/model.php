@@ -13,14 +13,14 @@ namespace app\models;
 
 use Yii;
 
-class <?= ucfirst($generator->modelName) ?> extends \yii\db\ActiveRecord
+class <?= $modelName ?> extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '<?=$generator->tableName?>';
+        return '<?=$tableName?>';
     }
 
     /**
@@ -32,12 +32,12 @@ class <?= ucfirst($generator->modelName) ?> extends \yii\db\ActiveRecord
     }
 
     /**
-    * @param string $value of <?=$generator->primaryKey?>.
+    * @param string $value of <?=$primaryKey?>.
     * @return ActiveRecord|null ActiveRecord instance matching the condition, or null if nothing matches.
     */
-    public function findBy<?=ucfirst($generator->primaryKey)?>($value)
+    public function findBy<?=ucfirst($primaryKey)?>($value)
     {
-        return self::findOne(['<?=$generator->primaryKey?>' => $value]);
+        return self::findOne(['<?=$primaryKey?>' => $value]);
     }
 
 

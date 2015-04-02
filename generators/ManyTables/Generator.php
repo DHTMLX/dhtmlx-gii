@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace DHTMLX\Gii;
+namespace DHTMLX\Gii\ManyTables;
 
 use Yii;
 use yii\gii\CodeFile;
@@ -28,23 +28,12 @@ use yii\helpers\Url;
  */
 class Generator extends \yii\gii\Generator
 {
-    /**
-     * @var string the controller class name
-     */
-    public $controllerName;
-    /**
-     * @var string the model class name
-     */
-    public $modelName;
 
-    /**
-     * @var string the primary key
-     */
-    public $primaryKey = 'id';
+
     /**
      * @var string the table name
      */
-    public $tableName;
+    public $tableNames;
     /**
      * @var string the action name
      */
@@ -59,14 +48,14 @@ class Generator extends \yii\gii\Generator
     public $modelPath = '@app/models';
 
     public $db = 'db';
-    protected $tableNames;
+
     protected $classNames;
     /**
      * @inheritdoc
      */
     public function getName()
     {
-        return 'DHTMLX Generator';
+        return 'DHTMLX Many Tables Generator';
     }
 
     /**
@@ -74,7 +63,7 @@ class Generator extends \yii\gii\Generator
      */
     public function getDescription()
     {
-        return 'This generator helps you to quickly generate a new view with one of dhtmlx components';
+        return 'This generator helps you to quickly generate many editable tables based on DHTMLX library';
     }
 
     /**
@@ -83,22 +72,11 @@ class Generator extends \yii\gii\Generator
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['controllerName',  'modelName', 'actionName', 'tableName','primaryKey'], 'filter', 'filter' => 'trim'],
-            [['controllerName', 'modelName', 'actionName', 'tableName', 'primaryKey'], 'required'],
-            [['controllerName'], 'validateController'],
+            [['db'], 'filter', 'filter' => 'trim'],
+            [['db'], 'required']
 
             //['controllerName', 'modelName', 'actionName' => '/^[\w\\\\]*$/', 'message' => 'Only word characters and backslashes are allowed.']
         ]);
-    }
-
-    /**
-     * Validates [[controllerName]] to make sure it is a valid controller and doesn't include 'controller' word.
-     */
-    public function validateController()
-    {
-        if (stripos($this->controllerName, 'controller')) {
-            $this->addError('controllerName', "Please, remove the word 'controller' - it will be added automatically");
-        }
     }
 
     /**
@@ -107,10 +85,6 @@ class Generator extends \yii\gii\Generator
     public function attributeLabels()
     {
         return [
-            'controllerName' => 'Controller Name',
-            'modelName' => 'Model Name',
-            'actionName' => 'Action Name',
-            'tableName' => 'Table Name',
             'db' => 'Database Connection ID',
         ];
     }
@@ -121,8 +95,8 @@ class Generator extends \yii\gii\Generator
     public function requiredTemplates()
     {
         return [
-            'controller.php',
-            'view.php',
+//            'controller.php',
+//            'view.php',
             'model.php',
         ];
     }
@@ -151,10 +125,6 @@ class Generator extends \yii\gii\Generator
     public function hints()
     {
         return [
-            'controllerName' => 'This is the name of the controller class to be generated. ,
-                and class name should be in CamelCase. Ending <code>Controller</code> will be added automatically.',
-            'actions' => 'Action name that will be the last argument of url',
-            'modelName' => 'Model name. First  character will be made capital automatically',
             'db' => 'This is the ID of the DB application component.',
         ];
     }
@@ -164,8 +134,8 @@ class Generator extends \yii\gii\Generator
      */
     public function successMessage()
     {
-        $url = "/".strtolower($this->controllerName)."/".strtolower($this->actionName);
-        return "<a href=".Url::toRoute($url).">Click</a> to go to created page";
+
+        return "ok";
     }
 
     /**
@@ -174,32 +144,66 @@ class Generator extends \yii\gii\Generator
     public function generate()
     {
         $db = $this->getDbConnection();
-        $tableSchema = $db->getTableSchema($this->tableName);
-        $fieldsArray = [];
-        foreach ($tableSchema->columns as $column) {
-            if ($column->name !== $this->primaryKey)
-                array_push($fieldsArray,$column->name);
-        }
-
-        $this->fieldsName = implode(',', $fieldsArray);
 
         $files = [];
+        $tables = [];
+        $this->getTableNames();
 
-        $files[] = new CodeFile(
-            $this->getModelFile(),
-            $this->render('model.php',['fields' => $this->fieldsName,
-                                       'rules' => $this->generateRules($tableSchema)])
-        );
+        $counter = 0;
+        foreach ($this->tableNames as $table) {
+            $tables[$counter]['url'] = "/".Inflector::singularize($table)."/table";
+            $tables[$counter]['comma'] = count($this->tableNames) == count($tables) ? '' : ',';
+            $tables[$counter++]['name'] = $table;
 
-        $files[] = new CodeFile(
-            $this->getControllerFile(),
-            $this->render('controller.php')
-        );
+        }
 
-        $files[] = new CodeFile(
-            $this->getViewFile(),
-            $this->render('view.php',['fields' => $this->fieldsName])
-        );
+        foreach ($this->tableNames as $table) {
+
+
+            $tableSchema = $db->getTableSchema($table);
+            $primaryKey = $tableSchema->primaryKey[0];
+            $fieldsArray = [];
+
+            foreach ($tableSchema->columns as $column) {
+                if ($column->name !== $primaryKey)
+                    array_push($fieldsArray,$column->name);
+            }
+
+            $fields = implode(',', $fieldsArray);
+
+            $modelControllerName = Inflector::classify($table);
+
+
+
+            $files[] = new CodeFile(
+                $this->getModelFile($modelControllerName),
+                $this->render('model.php',['fields'    => $fields,
+                                           'rules'     => $this->generateRules($tableSchema),
+                                           'modelName' => $modelControllerName,
+                                           'primaryKey'=> $primaryKey,
+                                           'tableName' => $table])
+            );
+
+            $files[] = new CodeFile(
+                $this->getControllerFile($modelControllerName),
+                $this->render('controller.php',['fields'         => $fields,
+                                                'controllerName' => $modelControllerName,
+                                                'modelName'      => $modelControllerName,
+                                                'primaryKey'     => $primaryKey])
+            );
+
+            $files[] = new CodeFile(
+                $this->getViewFile($modelControllerName),
+                $this->render('view.php',['fields'    => $fields,
+                                          'tableName' => $table,
+                                          'tables'    => $tables])
+            );
+
+        }
+
+
+
+
 
 
         return $files;
@@ -209,22 +213,22 @@ class Generator extends \yii\gii\Generator
     /**
      * @return string the controller class file path
      */
-    public function getControllerFile()
+    public function getControllerFile($controllerName)
     {
-        return Yii::getAlias($this->controllerPath) . '/' . ucfirst($this->controllerName) . 'Controller.php';
+        return Yii::getAlias($this->controllerPath) . '/' . ucfirst($controllerName) . 'Controller.php';
     }
 
     /**
      * @return string the controller class file path
      */
-    public function getModelFile()
+    public function getModelFile($modelName)
     {
-        return Yii::getAlias($this->modelPath) . '/' . $this->modelName . '.php';
+        return Yii::getAlias($this->modelPath) . '/' . $modelName . '.php';
     }
 
-    public function getViewFile()
+    public function getViewFile($controllerName)
     {
-        return Yii::getAlias($this->viewPath) . '/' .strtolower($this->controllerName).'/' .$this->actionName . '.php';
+        return Yii::getAlias($this->viewPath) . '/' .strtolower($controllerName).'/table.php';
     }
 
     /**
@@ -236,30 +240,10 @@ class Generator extends \yii\gii\Generator
             return $this->tableNames;
         }
         $db = $this->getDbConnection();
-        if ($db === null) {
-            return [];
-        }
-        $tableNames = [];
-        if (strpos($this->tableName, '*') !== false) {
-            if (($pos = strrpos($this->tableName, '.')) !== false) {
-                $schema = substr($this->tableName, 0, $pos);
-                $pattern = '/^' . str_replace('*', '\w+', substr($this->tableName, $pos + 1)) . '$/';
-            } else {
-                $schema = '';
-                $pattern = '/^' . str_replace('*', '\w+', $this->tableName) . '$/';
-            }
 
-            foreach ($db->schema->getTableNames($schema) as $table) {
-                if (preg_match($pattern, $table)) {
-                    $tableNames[] = $schema === '' ? $table : ($schema . '.' . $table);
-                }
-            }
-        } elseif (($table = $db->getTableSchema($this->tableName, true)) !== null) {
-            $tableNames[] = $this->tableName;
-            $this->classNames[$this->tableName] = $this->modelName;
-        }
+        $this->tableNames = $db->schema->getTableNames();
 
-        return $this->tableNames = $tableNames;
+        return $this->tableNames;
     }
 
     /**
