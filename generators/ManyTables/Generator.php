@@ -166,7 +166,7 @@ class Generator extends \yii\gii\Generator
             $headersArray = [];
 
             foreach ($tableSchema->columns as $column) {
-                if ($column->name !== $primaryKey) {
+                if (!$column->autoIncrement) {
                     array_push($fieldsArray, $column->name);
                     array_push($headersArray, Inflector::humanize($column->name));
                 }

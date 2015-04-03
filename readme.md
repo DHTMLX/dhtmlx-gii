@@ -41,7 +41,7 @@ to the ```require``` section of your `composer.json` file.
             'class' => 'yii\gii\Module',
             'generators' => [
                 'dhtmlx-one-table' => [
-                    'class' => 'DHTMLX\Gii\OneTable\Generator',
+                    'class' => 'DHTMLX\Gii\SingleTable\Generator',
                 ],
                 'dhtmlx-many-tables' => [
                                     'class' => 'DHTMLX\Gii\ManyTables\Generator',

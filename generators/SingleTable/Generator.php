@@ -177,7 +177,7 @@ class Generator extends \yii\gii\Generator
         $tableSchema = $db->getTableSchema($this->tableName);
         $fieldsArray = [];
         foreach ($tableSchema->columns as $column) {
-            if ($column->name !== $this->primaryKey)
+            if (!$column->autoIncrement)
                 array_push($fieldsArray,$column->name);
         }
 
