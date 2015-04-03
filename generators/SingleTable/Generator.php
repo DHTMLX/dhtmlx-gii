@@ -188,7 +188,11 @@ class Generator extends \yii\gii\Generator
         $files[] = new CodeFile(
             $this->getModelFile(),
             $this->render('model.php',['fields' => $this->fieldsName,
-                                       'rules' => $this->generateRules($tableSchema)])
+                                       'rules' => $this->generateRules($tableSchema),
+                                       'modelName' => $this->modelName,
+                                       'tableName' => $this->tableName,
+                                       'primaryKey' => $this->primaryKey
+                                      ])
         );
 
         $files[] = new CodeFile(
