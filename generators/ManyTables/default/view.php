@@ -1,9 +1,31 @@
 <div id="layout" style="width:auto; height:800px;"> </div>
 <script type="text/javascript" charset="utf-8">
 
+
+    dhtmlxEvent(window,"load",function(){
+
+        var layout = new dhtmlXLayoutObject({
+            parent: "layout",
+            pattern: "2U"   // <-- pattern
+        });
+
+        var nav = layout.cells('a');
+        var table = layout.cells('b');
+
+        nav.setText('Navigation');
+        nav.setWidth(200);
+        table.setText("<?=ucfirst($tableName)?>");
+
+        createTree(nav);
+        createGrid(table);
+
+
+    });
+
+
     function createGrid(cell) {
         mygrid = cell.attachGrid();
-        mygrid.setHeader("<?=$fields?>");
+        mygrid.setHeader("<?=$headers?>");
         mygrid.init();
 
         mygrid.load("./table_data");
@@ -47,31 +69,15 @@
         );
 
         mytree.openAllItems(0);
-    }
 
-    dhtmlxEvent(window,"load",function(){
-
-        var layout = new dhtmlXLayoutObject({
-            parent: "layout",
-            pattern: "2U"   // <-- pattern
-        });
-
-        var nav = layout.cells('a');
-        var table = layout.cells('b');
-
-        nav.setText('Navigation');
-        nav.setWidth(200);
-        table.setText("<?=$tableName?>");
-
-        createTree(nav);
-        createGrid(table);
+        mytree.selectItem("/<?=$controllerName?>/table");
 
         //Redirect on click
-        mytree.attachEvent("onDblClick", function(id){
+        mytree.attachEvent("onClick", function(id){
             document.location = id;
         });
+    }
 
 
-    });
 
 </script>

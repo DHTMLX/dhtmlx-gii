@@ -163,13 +163,17 @@ class Generator extends \yii\gii\Generator
             $tableSchema = $db->getTableSchema($table);
             $primaryKey = $tableSchema->primaryKey[0];
             $fieldsArray = [];
+            $headersArray = [];
 
             foreach ($tableSchema->columns as $column) {
-                if ($column->name !== $primaryKey)
-                    array_push($fieldsArray,$column->name);
+                if ($column->name !== $primaryKey) {
+                    array_push($fieldsArray, $column->name);
+                    array_push($headersArray, Inflector::humanize($column->name));
+                }
             }
 
-            $fields = implode(',', $fieldsArray);
+            $fields  = implode(',', $fieldsArray);
+            $headers = implode(',', $headersArray);
 
             $modelControllerName = Inflector::classify($table);
 
@@ -194,9 +198,10 @@ class Generator extends \yii\gii\Generator
 
             $files[] = new CodeFile(
                 $this->getViewFile($modelControllerName),
-                $this->render('view.php',['fields'    => $fields,
+                $this->render('view.php',['headers'    => $headers,
                                           'tableName' => $table,
-                                          'tables'    => $tables])
+                                          'tables'    => $tables,
+                                          'controllerName' => strtolower($modelControllerName)])
             );
 
         }
