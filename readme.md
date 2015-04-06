@@ -5,7 +5,7 @@ This generator generates the grid on a given url with the help of DHTMLX Grid.
 
 ## Installation
 
-Add to components if config the following
+Add to components in $config the following
 ```php
     'dhtmlx-js'  => '/path/to/dhtmlx-js-file',
     'dhtmlx-css' => '/path/to/dhtmlx-css-file'
