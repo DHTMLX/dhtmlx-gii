@@ -24,7 +24,7 @@
 
 
     function createGrid(cell) {
-        mygrid = cell.attachGrid();
+        var mygrid = cell.attachGrid();
         mygrid.setHeader("<?=$headers?>");
         mygrid.init();
 
@@ -53,14 +53,14 @@
     }
 
     function createTree(cell) {
-        mytree = cell.attachTree();
+        var mytree = cell.attachTree();
 
         mytree.setImagesPath("/dhtmlx/codebase/imgs/dhxtree_skyblue/");
         mytree.loadJSONObject(
             {id:0, item:[
                 {id:2, text:"Tables", item:[
                     <?php foreach ($tables as $table): ?>
-                    {id:"<?=$table['url']?>", text:"<?=$table['name']?>"}<?=$table['comma']?>
+                    {id:"<?=Url::toRoute($table['url'])?>", text:"<?=$table['name']?>"}<?=$table['comma']?>
                     <?php endforeach;?>
                 ]
                 }
@@ -70,10 +70,10 @@
 
         mytree.openAllItems(0);
 
-        mytree.selectItem("/<?=$controllerName?>/table");
+        mytree.selectItem("<?=Url::toRoute($controllerName."/table")?>");
 
         //Redirect on click
-        mytree.attachEvent("onClick", function(id){
+        mytree.attachEvent("onClick", function($id){
             document.location = id;
         });
     }
