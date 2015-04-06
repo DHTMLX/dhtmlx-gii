@@ -62,7 +62,7 @@
             {id:0, item:[
                 {id:2, text:"Tables", item:[
                     <?php foreach ($tables as $table): ?>
-                    {id:"<?=Url::toRoute($table['url'])?>", text:"<?=$table['name']?>"}<?=$table['comma']?>
+                    {id:"<?=$table['url']?>", text:"<?=$table['name']?>"}<?=$table['comma']?>
                     <?php endforeach;?>
                 ]
                 }
@@ -72,11 +72,11 @@
 
         mytree.openAllItems(0);
 
-        mytree.selectItem("<?=Url::toRoute($controllerName."/table")?>");
+        mytree.selectItem("<?=$controllerName?>/table");
 
         //Redirect on click
-        mytree.attachEvent("onClick", function($id){
-            document.location = id;
+        mytree.attachEvent("onClick", function(id){
+            document.location = "<?= Yii::$app->homeUrl?>"+id;
         });
     }
 

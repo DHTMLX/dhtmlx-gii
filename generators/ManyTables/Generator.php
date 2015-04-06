@@ -49,6 +49,7 @@ class Generator extends \yii\gii\Generator
 
     public $db = 'db';
 
+    protected $lastControllerName;
     protected $classNames;
     /**
      * @inheritdoc
@@ -135,7 +136,8 @@ class Generator extends \yii\gii\Generator
     public function successMessage()
     {
 
-        return "ok";
+        $url = strtolower($this->lastControllerName)."/table";
+        return "<a href=".Yii::$app->homeUrl.'/'.Url::toRoute($url).">Click</a> to go to created page";
     }
 
     /**
@@ -150,19 +152,18 @@ class Generator extends \yii\gii\Generator
         $this->getTableNames();
 
         $counter = 0;
+
         foreach ($this->tableNames as $table) {
-            $tables[$counter]['url'] = "/".Inflector::singularize($table)."/table";
+            $tables[$counter]['url'] = strtolower(Inflector::classify($table))."/table";
             $tables[$counter]['comma'] = count($this->tableNames) == count($tables) ? '' : ',';
             $tables[$counter++]['name'] = $table;
-
         }
 
         foreach ($this->tableNames as $table) {
 
-
             $tableSchema = $db->getTableSchema($table);
             $primaryKey = $tableSchema->primaryKey[0];
-            $fieldsArray = [];
+            $fieldsArray  = [];
             $headersArray = [];
 
             foreach ($tableSchema->columns as $column) {
@@ -175,7 +176,7 @@ class Generator extends \yii\gii\Generator
             $fields  = implode(',', $fieldsArray);
             $headers = implode(',', $headersArray);
 
-            $modelControllerName = Inflector::classify($table);
+            $modelControllerName = ucfirst(strtolower(Inflector::classify($table)));
 
 
 
@@ -206,7 +207,7 @@ class Generator extends \yii\gii\Generator
 
         }
 
-
+        $this->lastControllerName = $modelControllerName;
 
 
 
@@ -220,7 +221,7 @@ class Generator extends \yii\gii\Generator
      */
     public function getControllerFile($controllerName)
     {
-        return Yii::getAlias($this->controllerPath) . '/' . ucfirst($controllerName) . 'Controller.php';
+        return Yii::getAlias($this->controllerPath) . '/' . ucfirst(strtolower($controllerName)) . 'Controller.php';
     }
 
     /**
