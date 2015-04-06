@@ -1,5 +1,10 @@
-<?php $this->registerJsFile(Yii::$app->components['dhtmlx-js'], ['position' => $this::POS_HEAD]); ?>
-<?php $this->registerCssFile(Yii::$app->components['dhtmlx-css']); ?>
+<?php
+echo "<?php\n";
+?>
+$this->registerJsFile(Yii::$app->components['dhtmlx-js'], ['position' => $this::POS_HEAD]);
+$this->registerCssFile(Yii::$app->components['dhtmlx-css']);
+<?= "?>" ?>
+
 <div id="layout" style="width:auto; height:800px;"> </div>
 <script type="text/javascript" charset="utf-8">
 
