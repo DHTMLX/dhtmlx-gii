@@ -136,7 +136,7 @@ class Generator extends \yii\gii\Generator
     public function successMessage()
     {
 
-        $url = strtolower($this->lastControllerName)."/table";
+        $url = "/".strtolower($this->lastControllerName)."/table";
         return "<a href=".Yii::$app->homeUrl.'/'.Url::toRoute($url).">Click</a> to go to created page";
     }
 
