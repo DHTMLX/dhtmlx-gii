@@ -11,6 +11,7 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.4.0",
-    "dhtmlx/connector-php": "dev-yii2"
+    "dhtmlx/connector-php": "dev-yii2",
+    "dhtmlx/dhtmlx-asset": "dev-master"
   }
 }
