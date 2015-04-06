@@ -2,13 +2,13 @@
   "name": "dhtmlx/dhtmlx-gii",
   "description": "Gii Generator for the generation of grid on a given url with the help of DHTMLX Library",
   "keywords": ["dhtmlx","yii2","gii","generator"],
-  "license": "GNU",
+  "license": "MIT",
   "autoload": {
     "psr-4": {
       "DHTMLX\\Gii\\": "generators/"
     }
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "require": {
     "php": ">=5.4.0",
     "dhtmlx/connector-php": "dev-yii2",

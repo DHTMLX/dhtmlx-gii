@@ -5,14 +5,6 @@ This generator generates the grid on a given url with the help of DHTMLX Grid.
 
 ## Installation
 
-Add to components in $config the following
-```php
-    'dhtmlx-js'  => '/absolute/path/to/dhtmlx-js-file',
-    'dhtmlx-css' => '/absolute/path/to/dhtmlx-css-file'
-```
-Make sure you have dhtmlx.css and dhtmlx.js in the head of your pages. Also make sure you have dhtmlx folder in your web folder with all pictures in codebase folder
-so that /dhtmlx/codebase/imgs should be available.
-
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
 Either run
