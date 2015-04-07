@@ -2,6 +2,7 @@
 echo "<?php\n";
 ?>
 use DHTMLX\Asset;
+Asset::register($this);
 <?= "?>" ?>
 
 <div id="layout" style="width:auto; height:800px;"> </div>

@@ -1,3 +1,9 @@
+<?php
+echo "<?php\n";
+?>
+use DHTMLX\Asset;
+Asset::register($this);
+<?= "?>" ?>
 <div id="layout" style="width:auto; height:800px;"> </div>
 <!--<p><a href="javascript:void(0)" onclick="var id=mygrid.uid(); mygrid.addRow(id,'',0); mygrid.showRow(id);">Add row</a></p>-->
 <!--<p><a href="javascript:void(0)" onclick="mygrid.deleteSelectedItem()">Remove Selected Row</a></p>-->
