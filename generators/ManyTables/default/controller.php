@@ -16,6 +16,7 @@ use yii\web\Controller;
 
 class <?= $controllerName ?>Controller extends Controller
 {
+    public $layout = "fullscreen";
 
     public $enableCsrfValidation = false;
 
