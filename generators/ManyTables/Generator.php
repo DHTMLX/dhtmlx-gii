@@ -205,17 +205,16 @@ class Generator extends \yii\gii\Generator
                                           'controllerName' => strtolower($modelControllerName)])
             );
 
-            $files[] = new CodeFile(
-                Yii::getAlias($this->viewPath) . '/layouts/fullscreen.php',
-                $this->render('layout.php')
-            );
+
 
         }
 
+        $files[] = new CodeFile(
+            Yii::getAlias($this->viewPath) . '/layouts/fullscreen.php',
+            $this->render('layout.php')
+        );
+
         $this->lastControllerName = $modelControllerName;
-
-
-
 
         return $files;
     }
