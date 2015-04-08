@@ -23,7 +23,7 @@ AppAsset::register($this);
     <?="<?=";?> $this->head() ?>
 
 </head>
-<body style="overflow: hidden;">
+<body style="overflow: hidden; height:100%; width:100%; margin: 0; padding:0;">
 <?="<?php";?> $this->beginBody() ?>
 
 <div class="wrap">
@@ -57,4 +57,3 @@ AppAsset::register($this);
 </body>
 </html>
 <?="<?php";?> $this->endPage() ?>
-?>

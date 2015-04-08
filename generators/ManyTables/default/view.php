@@ -5,7 +5,7 @@ use DHTMLX\Asset\DHTMLXAsset;
 DHTMLXAsset::register($this);
 <?= "?>" ?>
 
-<div id="layout" style="width:auto; height:800px;"> </div>
+<div id="layout" style="position: absolute; width:100%; height: 100%;"> </div>
 <script type="text/javascript" charset="utf-8">
 
 
@@ -13,14 +13,17 @@ DHTMLXAsset::register($this);
 
         var layout = new dhtmlXLayoutObject({
             parent: "layout",
-            pattern: "2U"   // <-- pattern
+            pattern: "3T"   // <-- pattern
         });
 
-        var nav = layout.cells('a');
-        var table = layout.cells('b');
+        var header = layout.cells('a');
+        header.setHeight(50);
+        var nav = layout.cells('b');
+        var table = layout.cells('c');
 
         nav.setText('Navigation');
         nav.setWidth(200);
+
         table.setText("<?=ucfirst($tableName)?>");
 
         createTree(nav);
