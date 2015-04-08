@@ -21,6 +21,11 @@ or add
 
 to the ```require``` section of your `composer.json` file.
 
+After that you can install new package:
+```
+$ php composer.phar update
+```
+
 ## Usage
 
 ```php

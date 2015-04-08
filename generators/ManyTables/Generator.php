@@ -1,9 +1,4 @@
 <?php
-/**
- * @link http://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
 
 namespace DHTMLX\Gii\ManyTables;
 
@@ -15,17 +10,7 @@ use yii\db\Schema;
 use yii\helpers\Inflector;
 use yii\helpers\Url;
 
-/**
- * This generator will generate a controller and one or a few action view files.
- *
- * @property array $actionIDs An array of action IDs entered by the user. This property is read-only.
- * @property string $controllerFile The controller class file path. This property is read-only.
- * @property string $controllerID The controller ID. This property is read-only.
- * @property string $controllerNamespace The namespace of the controller class. This property is read-only.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @since 2.0
- */
+
 class Generator extends \yii\gii\Generator
 {
 
@@ -96,9 +81,10 @@ class Generator extends \yii\gii\Generator
     public function requiredTemplates()
     {
         return [
-//            'controller.php',
-//            'view.php',
+            'controller.php',
+            'view.php',
             'model.php',
+            'layout.php'
         ];
     }
 
